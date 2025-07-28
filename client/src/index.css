@@ -1,3 +1,29 @@
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
+
+/* Search button base styles */
+.search-button {
+  background-color: white;
+  color: black;
+  border-radius: 9999px; /* pill shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  outline: none;
+  border: none;
+}
+
+/* Make the icon larger on small devices */
+.search-button .search-icon {
+  font-size: 32px; /* or 36px if needed */
+}
+
+/* Optional: Adjust for even smaller screens if necessary */
+@media (max-width: 480px) {
+  .search-button .search-icon {
+    font-size: 36px;
+  }
+}
