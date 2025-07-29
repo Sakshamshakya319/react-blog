@@ -1,12 +1,14 @@
-import { Navbar, NavbarToggle, NavbarLink, TextInput, Button, NavbarCollapse } from 'flowbite-react';
+import { Navbar, NavbarToggle, NavbarLink,Avatar, TextInput, Button, NavbarCollapse, Dropdown, DropdownHeader,DropdownItem,DropdownDivider } from 'flowbite-react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import { FaMoon } from "react-icons/fa";
 import { AiOutlineSearch } from 'react-icons/ai';
+import {useSelector} from 'react-redux';
 
 
 function Header() {
     const path = useLocation().pathname;
+    const {currentUser}=useSelector((state)=>state.user);
     return (
         <Navbar className="border-b-2 !bg-white !text-black [&_a]:!text-black [&_a:hover]:!text-black [&_button]:!bg-white [&_button]:!text-black [&_button:hover]:!text-black">
             <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold !text-black'>
@@ -36,7 +38,31 @@ function Header() {
                 <Button className="w-12 h-10 hidden sm:inline !outline-none !ring-0 focus:!outline-none focus:!ring-0 active:!outline-none active:!ring-0" color='gray' pill>
                     <FaMoon />
                 </Button>
-                <Link to="/sign-in">
+                {currentUser ? (
+                    <Dropdown
+                        className='!bg-teal-50 !text-black [&_a]:!text-black [&_a:hover]:!text-black'
+                        arrowIcon={false}
+                        inline
+                        label={
+                            <Avatar
+                            alt="user"
+                            img={currentUser.profilePicture}
+                            rounded
+                            />
+                        }
+                        >
+                        <DropdownHeader>
+                            <span className='block text-sm !text-black '>@{currentUser.username}</span>
+                            <span className='block text-sm !text-black font-medium truncate'>{currentUser.email}</span>
+                        </DropdownHeader>
+                        <Link className='!bg-teal-50' to={'/dashboard?tab=profile'}>
+                        <DropdownItem >Profile</DropdownItem>                        
+                        </Link>
+                        <DropdownDivider/>
+                        <DropdownItem>Sign Out</DropdownItem>
+                    </Dropdown>
+                ):(
+                    <Link to="/sign-in">
                     <Button
                         as={Link}
                         to="/sign-in"
@@ -46,6 +72,9 @@ function Header() {
                         Sign In
                     </Button>
                 </Link>
+                )
+                }
+                
             </div>
             <NavbarToggle />
 
