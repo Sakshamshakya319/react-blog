@@ -2,6 +2,8 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Label, TextInput, Alert, Button, Spinner } from 'flowbite-react';
 import { HiInformationCircle } from "react-icons/hi";
+import { useDispatch,useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 
 function SignIn() {
    const [formData, setFormData] = React.useState({
@@ -9,10 +11,11 @@ function SignIn() {
       email: '',
       password: ''
     });
-    const [errorMessage, setErrorMessage] = React.useState('');
     const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = React.useState('');
-    const [loading, setLoading] = React.useState(false);
+    const{loading, error: errorMessage} = useSelector(state => state.user);
+
+    const dispatch = useDispatch();
   
     const handleChange = (e) => {
       const { id, value } = e.target;
@@ -21,8 +24,7 @@ function SignIn() {
         [id]: value.trim()
       }));
       // Clear messages when user starts typing
-      if (errorMessage || successMessage) {
-        setErrorMessage('');
+      if (errorMessage || successMessage) {  
         setSuccessMessage('');
       }
     };
@@ -31,29 +33,25 @@ function SignIn() {
       e.preventDefault();
       
       // Clear previous messages
-      setErrorMessage('');
       setSuccessMessage('');
       
       // Validate form fields
       if ( !formData.email || !formData.password) {
-        setErrorMessage('Please fill all the fields');
-        return;
+        return dispatch(signInFailure("All fields are required"));
       }
   
       // Simple email validation
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        setErrorMessage('Please enter a valid email address');
-        return;
+        dispatch(signInFailure("Invalid Email"));
       }
   
       // Password length validation
       if (formData.password.length < 6) {
-        setErrorMessage('Password must be at least 6 characters');
-        return;
+        dispatch(signInFailure("Password must be at least 6 characters long"));
       }
       
       try {
-        setLoading(true);
+        dispatch(signInStart());
         
         // Simulate API call (replace with your actual API endpoint)
         const res = await fetch('/api/auth/signin', {
@@ -63,10 +61,14 @@ function SignIn() {
         });
         
         const data = await res.json();
+        if(data.success === false){
+          dispatch(signInFailure(data.message));
+          
+        }  
         
         if (!res.ok) {
           // Handle error response
-          setErrorMessage(data.message || 'Something went wrong during signup!');
+          dispatch(signInFailure(data.message));
         } else {
           // Handle success response
           setSuccessMessage('Account created successfully! Redirecting...');
@@ -76,18 +78,19 @@ function SignIn() {
             password: ''
           });
           
+          
           // Optional: Redirect after success
           // setTimeout(() => navigate('/sign-in'), 2000);
         }
   
         if(res.ok){
+          dispatch(signInSuccess(data));
           navigate('/');
         }
       } catch (error) {
-        console.error('Signup error:', error);
-        setErrorMessage('Network error. Please try again.');
+        dispatch(signInFailure(error));
       } finally {
-        setLoading(false);
+        loading(false);
       }
     } 
   
@@ -154,17 +157,11 @@ function SignIn() {
             
             {/* Error Message */}
             {errorMessage && (
-              <Alert className='mt-5' color='failure' onDismiss={() => setErrorMessage('')}>
+              <Alert className='mt-5' color='failure' onDismiss={() => dispatch(signInFailure)('')}>
                 <span className="font-medium">Error!</span> {errorMessage}
               </Alert>
             )}
-            
-            {/* Success Message */}
-            {successMessage && (
-              <Alert className='mt-5' color='success' onDismiss={() => setSuccessMessage('')}>
-                <span className="font-medium">Success!</span> {successMessage}
-              </Alert>
-            )}
+          
           </div>
         </div>
       </div>
