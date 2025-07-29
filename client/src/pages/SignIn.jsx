@@ -4,7 +4,7 @@ import { Label, TextInput, Alert, Button, Spinner } from 'flowbite-react';
 import { HiInformationCircle } from "react-icons/hi";
 import { useDispatch,useSelector } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
-
+import Oauth from '../components/Oauth';
 function SignIn() {
    const [formData, setFormData] = React.useState({
       username: '',
@@ -148,6 +148,7 @@ function SignIn() {
                   </>
                 ) : 'Sign In'}
               </Button>
+              <Oauth/>
             </form>
             
             <div className='flex gap-2 text-sm mt-5 items-center justify-center'>
@@ -157,7 +158,7 @@ function SignIn() {
             
             {/* Error Message */}
             {errorMessage && (
-              <Alert className='mt-5' color='failure' onDismiss={() => dispatch(signInFailure)('')}>
+              <Alert className='mt-5' color='failure' onDismiss={() => dispatch(signInFailure(''))}>
                 <span className="font-medium">Error!</span> {errorMessage}
               </Alert>
             )}

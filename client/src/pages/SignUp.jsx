@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Label, TextInput, Alert, Button, Spinner } from 'flowbite-react';
 import { HiInformationCircle } from "react-icons/hi";
+import Oauth from '../components/Oauth';
 
 
 function SignUp() {
@@ -158,6 +159,7 @@ function SignUp() {
                 </>
               ) : 'Sign Up'}
             </Button>
+            <Oauth />
           </form>
           
           <div className='flex gap-2 text-sm mt-5 items-center justify-center'>
