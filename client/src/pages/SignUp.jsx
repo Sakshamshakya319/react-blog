@@ -98,7 +98,7 @@ function SignUp() {
       <div className='flex flex-col p-3 max-w-3xl mx-auto md:flex-row md:items-center gap-6'>
         {/* Left side */}
         <div className='md:w-1/2'>
-          <Link to="/" className='font-bold dark:text-white text-4xl'>
+          <Link to="/" className='font-bold text-black text-4xl' style={{ fontFamily: 'Soege, sans-serif' }}>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>Saksham's</span>
             <span className='text-black'>Blog</span>
           </Link>

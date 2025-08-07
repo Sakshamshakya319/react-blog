@@ -2,10 +2,55 @@
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
+
+
+/* CSS Custom Properties for Light Theme */
+:root {
+  --bg-primary: #ffffff;
+  --text-primary: #000000;
+  --bg-secondary: #f8f9fa;
+  --text-secondary: #374151;
+  --border-color: #e5e7eb;
+  --accent-color: #8b5cf6;
+}
+
+/* Set default font family and color */
+* {
+  font-family: 'Soege', sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light theme only */
+html {
+  color-scheme: light;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  font-family: 'Soege', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Ensure all text elements are black */
+h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
+  color: var(--text-primary) !important;
+}
+
+/* Ensure all backgrounds are white */
+div, section, article, aside, nav, header, footer, main {
+  background-color: var(--bg-primary) !important;
+}
+
 /* Search button base styles */
 .search-button {
-  background-color: white;
-  color: black;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   border-radius: 9999px; /* pill shape */
   display: flex;
   align-items: center;
@@ -26,4 +71,97 @@
   .search-button .search-icon {
     font-size: 36px;
   }
+}
+
+/* Search input styling */
+input[type="text"], input[type="search"] {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+input[type="text"]:focus, input[type="search"]:focus {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+  outline: none !important;
+}
+
+/* Remove button borders and shadows */
+button[type="button"] {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Mobile search button specific styling */
+.lg\:hidden button {
+  border: 1px solid #d1d5db !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+  background-color: white !important;
+  color: #1f2937 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  border-radius: 50% !important;
+}
+
+/* Mobile search icon styling */
+.lg\:hidden button svg {
+  color: #1f2937 !important;
+  font-size: 1.25rem !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+
+/* Ensure mobile search button is visible */
+@media (max-width: 1024px) {
+  .lg\:hidden button {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+  }
+  
+  /* Force search icon visibility */
+  .lg\:hidden button svg,
+  .lg\:hidden button .fa-search {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #1f2937 !important;
+  }
+}
+
+/* Flowbite TextInput styling */
+.flowbite-react input {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+.flowbite-react input:focus {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+  outline: none !important;
+}
+
+/* Override any dark theme classes */
+.dark {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Ensure Flowbite components use light theme */
+.flowbite-react {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Override any potential dark mode styles */
+[data-theme="dark"] {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
 }
